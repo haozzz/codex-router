@@ -396,15 +396,14 @@ function startPanel() {
         ? "Only selected models are exposed as Codex subagents."
         : "Only registry-proven v2 models are exposed as Codex subagents.";
 
-    const subagentModels = enabledModels
-      .filter((model) => !model.native && model.visible !== false)
+    const subagentModels = enabledModels.filter((model) => !model.native);
     const subagentGroups = groupModels(subagentModels);
     const subagentRow = (model) => {
         const checked = subagent.mode === "all"
           ? !disabledSubagents.has(model.slug)
           : (model.multiAgentVersion === "v2" || enabledSubagents.has(model.slug)) &&
             !disabledSubagents.has(model.slug);
-        const badge = model.multiAgentVersion === "v2" ? " · proven v2" : "";
+        const badge = `${model.multiAgentVersion === "v2" ? " · proven v2" : ""}${hiddenModels.has(model.slug) ? " · picker hidden" : ""}`;
         return `<label class="model-setting-row">
           <span><strong>${escapeHtml(model.displayName)}</strong><small>${escapeHtml(badge)}</small></span>
           <span class="provider-check"><input type="checkbox" data-subagent="${escapeHtml(model.slug)}" aria-label="Use ${escapeHtml(model.displayName)} as a subagent"${checked ? " checked" : ""}${state.modelSettingsBusy ? " disabled" : ""}></span>
@@ -416,12 +415,11 @@ function startPanel() {
       : '<div class="empty-state">Enable a provider to choose subagent models here.</div>';
     const subagentCount = subagent.mode === "all"
       ? enabledModels.filter(
-          (model) => !model.native && model.visible !== false && !disabledSubagents.has(model.slug),
+          (model) => !model.native && !disabledSubagents.has(model.slug),
         ).length
       : enabledModels.filter(
           (model) =>
             !model.native &&
-            model.visible !== false &&
             (model.multiAgentVersion === "v2" || enabledSubagents.has(model.slug)) &&
             !disabledSubagents.has(model.slug),
         ).length;
@@ -474,7 +472,7 @@ function startPanel() {
       if (group === "subagents") {
         const selectAll = action === "select-all";
         state.snapshot = await call("set_subagent_selection", { selectAll });
-        showToast(selectAll ? "Every picker-visible model can now run as a subagent." : "Subagent selection cleared.");
+        showToast(selectAll ? "Every enabled external model can now run as a subagent." : "Subagent selection cleared.");
       } else {
         const showAll = action === "show-all";
         state.snapshot = await call("set_picker_models", { showAll });

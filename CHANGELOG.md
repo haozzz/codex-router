@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Model picker visibility and subagent eligibility are independent.** Hiding
+  a model now removes it only from the main Codex model picker; the same model
+  can remain a v2 subagent when `Subagent models` is set to all or explicitly
+  selected. The macOS and desktop companions keep hidden models in the
+  subagent list and label them `Picker hidden`. If a model must not run as a
+  subagent, turn it off under **Subagent models** rather than relying on picker
+  visibility.
+
 - **The gateway no longer installs a cryptography with a known advisory.**
   litellm 1.95.0 required `cryptography>=48.0.1,<49.0`, and the fix for
   GHSA-g6cj-pr64-35w5 — a Bleichenbacher oracle reachable through PKCS#7

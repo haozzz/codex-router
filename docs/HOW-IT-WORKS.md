@@ -191,9 +191,9 @@ Only registry-proven models are advertised as native v2 spawn-agent overrides
 by default. The Settings tab (desktop panel and macOS tray) exposes two local
 accordions: **Subagent models** controls whether all selected models, or only
 individually chosen models, are promoted to `multi_agent_version: "v2"` in the
-merged catalog. The all-models mode follows the picker dynamically: a model
-hidden from **Model picker** is not exposed as a subagent. Each accordion also
-has select-all and unselect-all bulk actions. `bin/multi-agent on` still
-promotes every picker-visible selected model, and `bin/multi-agent off`
-restores the conservative set. The checked-in provider registry is never
-changed by these switches.
+merged catalog. **Model picker** visibility is independent: a model can remain
+hidden from the main picker while still being exposed as a subagent. Each
+accordion also has select-all and unselect-all bulk actions.
+`bin/multi-agent on` still promotes every selected model, and
+`bin/multi-agent off` restores the conservative set. The checked-in provider
+registry is never changed by these switches.

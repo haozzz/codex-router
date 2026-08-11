@@ -5,6 +5,7 @@ import {
   AUTO_ANNOUNCE_WINDOW_MS,
   annotateNewModelAnnouncements,
   applyAllMultiAgent,
+  applyPickerVisibility,
   buildMergedCatalog,
   buildLoginFreeCatalog,
   clampModelEfforts,
@@ -63,6 +64,16 @@ test("routed models are native v2 spawn-agent model overrides", () => {
   assert.equal(model.visibility, "list");
   assert.equal(model.supported_in_api, true);
   assert.equal(model.multi_agent_version, "v2");
+});
+
+test("picker-hidden models retain v2 subagent eligibility", () => {
+  const model = routedModel(template, grok);
+  const [hidden] = applyPickerVisibility(
+    [model],
+    new Set(["grok-oauth/grok-4.5"]),
+  );
+  assert.equal(hidden.visibility, "hide");
+  assert.equal(hidden.multi_agent_version, "v2");
 });
 
 test("routed models advertise reasoning summaries only when the registry opts in", () => {
@@ -384,18 +395,23 @@ test("native listed models follow the local subagent opt-in", () => {
   assert.equal(promoted[2].multi_agent_version, "v1");
 });
 
-test("native promotion honours disabled models and picker-hidden slugs", () => {
+test("native promotion honours disabled models independently of picker visibility", () => {
   const native = [
-    { slug: "gpt-5.6-luna", visibility: "list", multi_agent_version: "v1" },
+    { slug: "gpt-5.6-luna", visibility: "list", multi_agent_version: "v2" },
     { slug: "gpt-5.5", visibility: "list", multi_agent_version: "v1" },
   ];
-  const promoted = promoteNativeMultiAgent(
-    native,
-    { mode: "all", enabled: [], disabled: ["gpt-5.6-luna"] },
+  const promoted = promoteNativeMultiAgent(native, {
+    mode: "all",
+    enabled: [],
+    disabled: ["gpt-5.6-luna"],
+  });
+  assert.equal(promoted[0].multi_agent_version, "v1");
+  const [, pickerHidden] = applyPickerVisibility(
+    promoted,
     new Set(["gpt-5.5"]),
   );
-  assert.equal(promoted[0].multi_agent_version, "v1");
-  assert.equal(promoted[1].multi_agent_version, "v1");
+  assert.equal(pickerHidden.visibility, "hide");
+  assert.equal(pickerHidden.multi_agent_version, "v2");
 });
 
 test("selected subagent mode only promotes the chosen native models", () => {

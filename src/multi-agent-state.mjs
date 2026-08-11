@@ -137,13 +137,10 @@ export function replaceMultiAgentState({ mode, enabled = [], disabled = [] }) {
   return subagentSettingsSnapshot();
 }
 
-export function applyMultiAgentSettings(models, settings, hidden = new Set()) {
+export function applyMultiAgentSettings(models, settings) {
   const enabled = new Set(settings.enabled || []);
   const disabled = new Set(settings.disabled || []);
   return models.map((model) => {
-    if (hidden.has(model.slug)) {
-      return { ...model, multiAgentVersion: "v1" };
-    }
     if (disabled.has(model.slug)) {
       return { ...model, multiAgentVersion: "v1" };
     }

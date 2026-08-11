@@ -33,7 +33,7 @@ A model carries `multiAgentVersion: "v2"` in the catalog. Three modes decide who
 |---|---|
 | `proven` | Only models the registry ships as verified. Conservative default. |
 | `selected` | Proven models plus ones you explicitly turn on. **Use this.** |
-| `all` | Every non-hidden model, regardless of whether it works. |
+| `all` | Every enabled model, regardless of picker visibility or whether it works. |
 
 ```bash
 ./bin/control subagents status                    # current mode, enabled, disabled

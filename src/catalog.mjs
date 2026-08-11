@@ -412,14 +412,18 @@ function sortCatalogModels(models) {
 // models on that static value, so a v1 entry can never be delegated to by a v2
 // parent. applyMultiAgentSettings only reaches routed models, which is why
 // "all" mode never promoted the native slugs; apply the same opt-in here so the
-// subagent modes mean what the Settings tab says they mean.
-export function promoteNativeMultiAgent(models, settings, hidden = new Set()) {
+// subagent modes mean what the Settings tab says they mean. Picker visibility
+// is deliberately independent: a model may stay hidden from the main picker
+// while remaining available to a spawned subagent.
+export function promoteNativeMultiAgent(models, settings) {
   const enabled = new Set(settings.enabled || []);
   const disabled = new Set(settings.disabled || []);
   return models.map((model) => {
     const slug = String(model.slug);
     if (model.visibility !== "list") return model;
-    if (hidden.has(slug) || disabled.has(slug)) return model;
+    if (disabled.has(slug)) {
+      return { ...model, multi_agent_version: "v1" };
+    }
     if (settings.mode === "all" || (settings.mode === "selected" && enabled.has(slug))) {
       return { ...model, multi_agent_version: "v2" };
     }
@@ -470,6 +474,14 @@ export function buildLoginFreeCatalog(native, routedModelsList) {
   return { models: sortCatalogModels(models), aliases };
 }
 
+export function applyPickerVisibility(models, hiddenModels = new Set()) {
+  return models.map((model) =>
+    hiddenModels.has(String(model.slug))
+      ? { ...model, visibility: "hide" }
+      : model,
+  );
+}
+
 function main() {
   // The catalog is what Codex offers in its picker. Writing it from a checkout
   // that does not own this state directory is how the picker ends up
@@ -477,11 +489,11 @@ function main() {
   assertStateOwnership("write the Codex model catalog");
   const userSlugs = new Set(readUserModels().map((model) => String(model.slug)));
   const hiddenModels = readHiddenModels();
+  const multiAgentSettings = readMultiAgentSettings();
   const selectedModels = selectedConfiguredListedModels();
   const allMultiAgentModels = applyMultiAgentSettings(
     selectedModels,
-    readMultiAgentSettings(),
-    hiddenModels,
+    multiAgentSettings,
   );
   // Clamp before announcements and agent sync so every surface Codex reads —
   // picker levels, defaults, and announcement copy — stays inside the effort
@@ -497,8 +509,7 @@ function main() {
     ...captured,
     models: promoteNativeMultiAgent(
       captured.models,
-      readMultiAgentSettings(),
-      hiddenModels,
+      multiAgentSettings,
     ),
   };
   // Dropping every native model is destructive, so only do it when Codex
@@ -548,11 +559,7 @@ function main() {
         aliases: {},
       };
   atomicJson(MERGED_CATALOG_PATH, {
-    models: merged.map((model) =>
-      hiddenModels.has(String(model.slug))
-        ? { ...model, visibility: "hide" }
-        : model,
-    ),
+    models: applyPickerVisibility(merged, hiddenModels),
   });
   atomicJson(NATIVE_ALIAS_PATH, { version: 1, aliases });
   writeAnnouncedAt(announcedAt);

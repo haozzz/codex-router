@@ -275,7 +275,7 @@ private struct IslandOverlayView: View {
           .font(.system(size: 9.5, weight: .semibold, design: .rounded))
           .foregroundStyle(.white.opacity(0.72))
           .fixedSize()
-          .help("\(activeSessions.count) running \(activeSessions.count == 1 ? "chat" : "chats")")
+          .help("\(activeSessions.count) 个会话运行中")
       }
       if store.activeRequests.isEmpty {
         Text(compactUsageSummary)
@@ -290,7 +290,7 @@ private struct IslandOverlayView: View {
             .font(.system(size: 10, weight: .semibold, design: .monospaced))
             .foregroundStyle(.white.opacity(0.9))
             .monospacedDigit()
-          Text("WEEKLY LEFT")
+          Text("每周剩余")
             .font(.system(size: 6.5, weight: .semibold, design: .monospaced))
             .foregroundStyle(routerMuted)
         }
@@ -325,7 +325,7 @@ private struct IslandOverlayView: View {
         }
         Spacer()
         HStack(spacing: 12) {
-          IslandHeaderMetric(value: todayTokenValue, label: "TODAY TOKENS")
+          IslandHeaderMetric(value: todayTokenValue, label: "今日 Token")
           if let accountHeaderValue {
             IslandHeaderMetric(value: accountHeaderValue, label: accountHeaderLabel)
           }
@@ -348,13 +348,13 @@ private struct IslandOverlayView: View {
           Text(store.activityState.label)
             .font(.system(size: 12, weight: .semibold, design: .rounded))
             .foregroundStyle(store.activityState.tint)
-          Text("\(activeSessions.count) \(activeSessions.count == 1 ? "CHAT" : "CHATS") RUNNING")
+          Text("\(activeSessions.count) 个会话运行中")
             .font(.system(size: 8, weight: .semibold, design: .monospaced))
             .foregroundStyle(routerMuted)
         }
         Spacer()
         HStack(spacing: 12) {
-          IslandHeaderMetric(value: todayTokenValue, label: "TODAY TOKENS")
+          IslandHeaderMetric(value: todayTokenValue, label: "今日 Token")
           if let accountHeaderValue {
             IslandHeaderMetric(value: accountHeaderValue, label: accountHeaderLabel)
           }
@@ -367,11 +367,11 @@ private struct IslandOverlayView: View {
       .frame(maxHeight: CGFloat(max(1, activeSessions.count)) * 40)
 
       HStack {
-        Text("DAILY USAGE")
+        Text("每日用量")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .foregroundStyle(routerMuted)
         Spacer()
-        Text("LAST 7 DAYS")
+        Text("近 7 天")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .foregroundStyle(routerMuted)
       }
@@ -407,7 +407,7 @@ private struct IslandOverlayView: View {
             .foregroundStyle(store.activityState.tint)
         }
         Spacer()
-        Button("Collapse") { display.setState(.peek) }
+        Button("收起") { display.setState(.peek) }
         .buttonStyle(.plain)
         .font(.system(size: 9, weight: .medium, design: .rounded))
         .foregroundStyle(routerMuted)
@@ -415,7 +415,7 @@ private struct IslandOverlayView: View {
 
       HStack(spacing: 8) {
         MetricTile(
-          title: "TODAY'S TOKENS",
+          title: "今日 Token",
           value: todayTokenValue,
           detail: tokenSourceDetail,
           tint: .white.opacity(0.88)
@@ -429,12 +429,12 @@ private struct IslandOverlayView: View {
       }
 
       HStack(alignment: .firstTextBaseline) {
-        Text("DAILY TOKEN TREND")
+        Text("每日 Token 趋势")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .tracking(0.8)
           .foregroundStyle(routerMuted)
         Spacer()
-        Text("LAST 7 DAYS")
+        Text("近 7 天")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .tracking(0.6)
           .foregroundStyle(routerMuted)
@@ -445,14 +445,14 @@ private struct IslandOverlayView: View {
         .frame(height: 78)
 
       HStack {
-        Text(store.hasConcurrentActivity ? "ACTIVE NOW" : "ACTIVE PROVIDER")
+        Text(store.hasConcurrentActivity ? "当前活跃" : "当前提供商")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .tracking(0.8)
           .foregroundStyle(routerMuted)
         Spacer()
         Text(store.hasConcurrentActivity
-          ? "\(store.activeChatCount) chats running"
-          : "Account and traffic are provider-scoped")
+          ? "\(store.activeChatCount) 个会话运行中"
+          : "账户与流量均按提供商隔离")
           .font(.system(size: 9, design: .rounded))
           .foregroundStyle(routerMuted)
       }
@@ -469,7 +469,7 @@ private struct IslandOverlayView: View {
               .foregroundStyle(routerMuted)
           }
           Spacer()
-          Text(store.activityState == .generating ? "Live" : "Last used")
+          Text(store.activityState == .generating ? "实时" : "上次使用")
             .font(.system(size: 9, weight: .medium, design: .rounded))
             .foregroundStyle(store.activityState.tint)
         }
@@ -497,12 +497,12 @@ private struct IslandOverlayView: View {
         }
         LiveOrb(state: store.activityState, count: activeSessions.count)
         VStack(alignment: .leading, spacing: 2) {
-          Text(selectedSession?.name ?? "Running chats")
+          Text(selectedSession?.name ?? "运行中的会话")
             .font(.system(size: 15, weight: .semibold, design: .rounded))
             .lineLimit(1)
           Text(selectedSession == nil
-            ? "\(activeSessions.count) \(activeSessions.count == 1 ? "chat" : "chats") running"
-            : "\(selectedSession?.agents.count ?? 0) assigned agents")
+            ? "\(activeSessions.count) 个会话运行中"
+            : "\(selectedSession?.agents.count ?? 0) 个已分配代理")
             .font(.system(size: 9, weight: .medium, design: .rounded))
             .foregroundStyle(store.activityState.tint)
         }
@@ -510,10 +510,10 @@ private struct IslandOverlayView: View {
         if let weeklyRemainingPercent {
           IslandHeaderMetric(
             value: "\(Int(weeklyRemainingPercent.rounded()))%",
-            label: "WEEKLY LEFT"
+            label: "每周剩余"
           )
         }
-        Button("Collapse") { display.setState(.peek) }
+        Button("收起") { display.setState(.peek) }
           .buttonStyle(.plain)
           .font(.system(size: 9, weight: .medium, design: .rounded))
           .foregroundStyle(routerMuted)
@@ -552,7 +552,7 @@ private struct IslandOverlayView: View {
   private var peekTitle: String {
     store.activeRequests.first.map(store.sessionName(for:))
       ?? store.activitySessionName
-      ?? "Router overview"
+      ?? "Router 概览"
   }
 
   private var compactProviderID: String {
@@ -562,7 +562,7 @@ private struct IslandOverlayView: View {
   private var compactSessionName: String {
     store.activeRequests.first.map(store.sessionName(for:))
       ?? store.activitySessionName
-      ?? "Ready"
+      ?? "就绪"
   }
 
   private var activeSessions: [IslandActivitySession] {
@@ -570,7 +570,7 @@ private struct IslandOverlayView: View {
       request.sessionId ?? request.sessionName ?? "request-\(request.id)"
     }
     return grouped.map { id, requests in
-      let fallback = requests.first.map(store.sessionName(for:)) ?? "Active session"
+      let fallback = requests.first.map(store.sessionName(for:)) ?? "活动会话"
       let name = requests.compactMap(\.sessionName).first
         ?? (grouped.count == 1 ? store.activitySessionName : nil)
         ?? fallback
@@ -586,15 +586,15 @@ private struct IslandOverlayView: View {
 
   private var sourceLabel: String {
     let provider = store.selectedUsageProviderID
-    if provider == "openai" { return "CHATGPT • NATIVE" }
-    if provider == "grok-oauth" { return "XAI • OAUTH SESSION" }
-    if provider == "grok-api" { return "XAI • METERED API" }
-    if provider.hasSuffix("-api") || provider == "deepseek" { return "METERED API" }
-    return "OAUTH ROUTE"
+    if provider == "openai" { return "ChatGPT · 原生" }
+    if provider == "grok-oauth" { return "XAI · OAuth 会话" }
+    if provider == "grok-api" { return "XAI · 按量 API" }
+    if provider.hasSuffix("-api") || provider == "deepseek" { return "按量 API" }
+    return "OAuth 路由"
   }
 
   private var compactUsageSummary: String {
-    "\(todayTokenValue) today"
+    "今日 \(todayTokenValue)"
   }
 
   private var todayTokenValue: String {
@@ -638,12 +638,14 @@ private struct IslandOverlayView: View {
 
   private var accountUsageLabel: String {
     if store.selectedUsageUsesChatGPT {
-      return store.accountUsage?.primary?.durationLabel ?? "ChatGPT limit"
+      return localizedLimitLabel(store.accountUsage?.primary?.durationLabel ?? "ChatGPT limit")
     }
     if let metric = store.selectedAccountMetric {
-      return metric.kind == "quota" ? standardizedLimitLabel(metric.label) : metric.label
+      if metric.kind == "quota" { return localizedLimitLabel(standardizedLimitLabel(metric.label)) }
+      if metric.kind == "balance" { return "余额" }
+      return metric.label
     }
-    return "Usage limit"
+    return "用量限额"
   }
 
   private var accountHeaderValue: String? {
@@ -654,24 +656,22 @@ private struct IslandOverlayView: View {
   }
 
   private var accountHeaderLabel: String {
-    if weeklyRemainingPercent != nil { return "WEEKLY LEFT" }
+    if weeklyRemainingPercent != nil { return "每周剩余" }
     if quotaUsedPercent != nil {
-      let window = accountUsageLabel.replacingOccurrences(
-        of: " limit",
-        with: "",
-        options: [.caseInsensitive]
-      )
-      return "\(window.uppercased()) USED"
+      let window = accountUsageLabel
+        .replacingOccurrences(of: " limit", with: "", options: [.caseInsensitive])
+        .replacingOccurrences(of: "限额", with: "")
+      return window.isEmpty ? "已用" : "\(window)已用"
     }
-    return accountUsageLabel.uppercased()
+    return accountUsageLabel
   }
 
   private var accountTileTitle: String {
-    accountUsageLabel.uppercased()
+    accountUsageLabel
   }
 
   private var accountTileValue: String {
-    if let quotaUsedPercent { return "\(Int(quotaUsedPercent.rounded()))% used" }
+    if let quotaUsedPercent { return "\(Int(quotaUsedPercent.rounded()))% 已用" }
     if let metric = store.selectedAccountMetric, metric.kind == "balance" {
       return formattedAccountMetric(metric)
     }
@@ -681,11 +681,11 @@ private struct IslandOverlayView: View {
   private var accountTileDetail: String {
     if let reset = store.selectedUsageResetDate { return usageResetCaption(reset) }
     if let detail = store.selectedAccountMetric?.detail, !detail.isEmpty { return detail }
-    return quotaUsedPercent == nil ? "Not reported by provider" : "No reset reported"
+    return quotaUsedPercent == nil ? "提供商未报告" : "未报告重置时间"
   }
 
   private var tokenSourceDetail: String {
-    store.selectedUsageUsesChatGPT ? "ChatGPT account usage" : "Measured by this router"
+    store.selectedUsageUsesChatGPT ? "ChatGPT 账户用量" : "由本 Router 测量"
   }
 
 }
@@ -818,8 +818,8 @@ private struct IslandUsageLineChart: View {
     .onChange(of: points.map(\.tokens)) { _ in animateReveal() }
     .onChange(of: reduceMotion) { _ in animateReveal() }
     .accessibilityElement(children: .ignore)
-    .accessibilityLabel("Daily token usage line chart")
-    .accessibilityValue("\(formattedTotalTokens) tokens over \(points.count) days")
+    .accessibilityLabel("每日 Token 用量折线图")
+    .accessibilityValue("\(points.count) 天共 \(formattedTotalTokens) Token")
   }
 
   private func animateReveal() {
@@ -896,7 +896,7 @@ private struct IslandUsageLineChart: View {
   private func hoverText(for point: DailyUsagePoint) -> String {
     let date = point.date.formatted(.dateTime.month(.abbreviated).day())
     let tokens = Int64(point.tokens).formatted(.number.grouping(.automatic))
-    return "\(date) · \(tokens) tok"
+    return "\(date) · \(tokens) Token"
   }
 }
 
@@ -953,7 +953,7 @@ private struct ProviderIcon: View {
     if providerID == "qwen-plan" { return "Qwen" }
     if providerID == "ollama-cloud" { return "Ollama" }
     if providerID.hasPrefix("commandcode") { return "Command Code" }
-    return "Model provider"
+    return "模型提供商"
   }
 }
 
@@ -1067,7 +1067,7 @@ private struct IslandSessionList: View {
           .font(.system(size: compact ? 10.5 : 11.5, weight: .semibold, design: .rounded))
           .foregroundStyle(.white.opacity(0.94))
           .lineLimit(1)
-        Text("\(session.agents.count) \(session.agents.count == 1 ? "agent" : "agents")")
+        Text("\(session.agents.count) 个代理")
           .font(.system(size: 8.5, weight: .medium, design: .monospaced))
           .foregroundStyle(routerMuted)
       }
@@ -1095,7 +1095,7 @@ private struct IslandSessionList: View {
 
   private func shortModelSummary(_ session: IslandActivitySession) -> String {
     let models = Array(Set(session.agents.compactMap(\.model))).sorted()
-    guard let first = models.first else { return "Active" }
+    guard let first = models.first else { return "活跃" }
     let short = first.split(separator: "/").last.map(String.init) ?? first
     return models.count == 1 ? short : "\(short) +\(models.count - 1)"
   }
@@ -1144,14 +1144,14 @@ private struct IslandAgentList: View {
       return name.replacingOccurrences(of: "_", with: " ")
     }
     if let nickname = request.agentNickname, !nickname.isEmpty { return nickname }
-    return request.isSubagent == true ? "Agent" : "Primary"
+    return request.isSubagent == true ? "子智能体" : "主代理"
   }
 
   private func elapsedLabel(for request: RouterActiveRequest, now: Date) -> String {
     let started = Date(timeIntervalSince1970: request.startedAt / 1000)
     let seconds = max(0, Int(now.timeIntervalSince(started)))
-    if seconds < 60 { return "\(seconds)s" }
-    return "\(seconds / 60)m \(seconds % 60)s"
+    if seconds < 60 { return "\(seconds) 秒" }
+    return "\(seconds / 60) 分 \(seconds % 60) 秒"
   }
 }
 
@@ -1172,7 +1172,7 @@ private struct ActiveRequestList: View {
           )
           .frame(maxWidth: .infinity)
           TimelineView(.periodic(from: .now, by: 1)) { context in
-            Text("Thinking · \(elapsedLabel(for: request, now: context.date))")
+            Text("思考中 · \(elapsedLabel(for: request, now: context.date))")
               .font(.system(size: compact ? 8.5 : 9, weight: .medium, design: .rounded))
               .foregroundStyle(routerYellow.opacity(0.95))
               .monospacedDigit()
@@ -1188,7 +1188,7 @@ private struct ActiveRequestList: View {
         }
       }
       if store.activeRequests.count > limit {
-        Text("+\(store.activeRequests.count - limit) more")
+        Text("+\(store.activeRequests.count - limit) 个更多")
           .font(.system(size: 9, weight: .medium, design: .rounded))
           .foregroundStyle(routerMuted)
           .frame(maxWidth: .infinity, alignment: .leading)
@@ -1199,10 +1199,10 @@ private struct ActiveRequestList: View {
   private func elapsedLabel(for request: RouterActiveRequest, now: Date) -> String {
     let started = Date(timeIntervalSince1970: request.startedAt / 1000)
     let seconds = max(0, Int(now.timeIntervalSince(started)))
-    if seconds < 60 { return "\(seconds)s" }
+    if seconds < 60 { return "\(seconds) 秒" }
     let minutes = seconds / 60
     let rem = seconds % 60
-    return "\(minutes)m \(rem)s"
+    return "\(minutes) 分 \(rem) 秒"
   }
 }
 
@@ -1617,7 +1617,7 @@ private struct DesktopPanelView: View {
             .lineLimit(1)
         }
         Spacer()
-        Text("ROUTER")
+        Text("Router")
           .font(.system(size: 8, weight: .bold, design: .monospaced))
           .tracking(1.1)
           .foregroundStyle(routerMuted)
@@ -1627,13 +1627,13 @@ private struct DesktopPanelView: View {
         ActiveRequestList(store: store, limit: 3, compact: true)
       }
 
-      Text("QUOTAS")
+      Text("配额")
         .font(.system(size: 8, weight: .semibold, design: .monospaced))
         .tracking(0.8)
         .foregroundStyle(routerMuted)
 
       if store.desktopQuotaRows.isEmpty {
-        Text("Connect a provider to see its quota here.")
+        Text("连接提供商后即可在此查看配额。")
           .font(.system(size: 10, design: .rounded))
           .foregroundStyle(routerMuted)
       } else {
@@ -1650,12 +1650,12 @@ private struct DesktopPanelView: View {
       Spacer(minLength: 0)
 
       HStack(alignment: .firstTextBaseline) {
-        Text("DAILY TOKENS")
+        Text("每日 Token")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .tracking(0.8)
           .foregroundStyle(routerMuted)
         Spacer()
-        Text("LAST 7 DAYS")
+        Text("近 7 天")
           .font(.system(size: 8, weight: .semibold, design: .monospaced))
           .tracking(0.6)
           .foregroundStyle(routerMuted)
@@ -1717,10 +1717,10 @@ private struct DesktopQuotaBarRow: View {
 
 private func desktopResetLabel(_ epoch: TimeInterval) -> String {
   let seconds = epoch - Date().timeIntervalSince1970
-  if seconds <= 0 { return "resets soon" }
+  if seconds <= 0 { return "即将重置" }
   let minutes = Int(seconds / 60)
-  if minutes < 60 { return "resets in \(minutes)m" }
+  if minutes < 60 { return "\(minutes) 分钟后重置" }
   let hours = minutes / 60
-  if hours < 24 { return "resets in \(hours)h" }
-  return "resets in \(hours / 24)d \(hours % 24)h"
+  if hours < 24 { return "\(hours) 小时后重置" }
+  return "\(hours / 24) 天 \(hours % 24) 小时后重置"
 }

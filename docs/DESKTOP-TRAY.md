@@ -35,8 +35,8 @@ and disables its activity-pill switch; router monitoring continues normally.
   prior model-provider setting when switched off.
 - **Models** has two accordions: **Subagent models** exposes every enabled
   model, or only selected models, as Codex v2 subagent overrides, and
-  **Model picker** hides or shows individual models without changing their
-  provider connection.
+  **Model picker** independently hides or shows individual models in the main
+  picker without changing their provider connection or subagent eligibility.
 
 The status mark uses Thinking Orbs **Shaping** while idle, **Thinking** while a
 model is generating, and **Solving** for errors. Starting retains its colored

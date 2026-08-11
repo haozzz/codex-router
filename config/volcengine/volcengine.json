@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "providers": [
+    {
+      "id": "volcengine-plan",
+      "displayName": "Volcengine Ark Coding Plan",
+      "kind": "openai-compatible",
+      "ownedBy": "volcengine",
+      "protocol": "openai-responses",
+      "baseUrl": "https://ark.cn-beijing.volces.com/api/coding/v3",
+      "baseUrlEnv": "VOLCENGINE_CODING_BASE_URL",
+      "credential": {
+        "environment": [
+          "ARK_API_KEY",
+          "VOLCENGINE_API_KEY"
+        ],
+        "file": "volcengine-plan-api-key.secret",
+        "legacyFiles": [],
+        "keychainServices": [
+          "codex-router-volcengine-plan"
+        ],
+        "prompt": "Volcengine Ark Coding Plan API key"
+      },
+      "planNote": "Requires an active Volcengine Ark Coding Plan. This provider intentionally uses /api/coding/v3; changing it to /api/v3 bypasses plan quota and may incur pay-as-you-go charges."
+    }
+  ]
+}
