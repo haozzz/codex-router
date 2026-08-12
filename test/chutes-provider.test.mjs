@@ -47,7 +47,7 @@ function writeChutesCredential(testRoot, value = "TEST_CHUTES_PERSISTENT_KEY") {
   writeFileSync(path.join(stateDir, "chutes-api-key.secret"), `${value}\n`, { mode: 0o600 });
 }
 
-test("the macOS tray labels Chutes as a metered API route", () => {
+test("the localized macOS tray labels Chutes as a metered API route", () => {
   const overlay = readFileSync(
     path.join(root, "apps", "macos", "ModelRouterTray", "Sources", "IslandOverlay.swift"),
     "utf8",
@@ -58,7 +58,7 @@ test("the macOS tray labels Chutes as a metered API route", () => {
   );
   assert.match(
     sourceLabel,
-    /\["deepseek", "chutes"\]\.contains\(provider\)[\s\S]*return "METERED API"/,
+    /\["deepseek", "chutes"\]\.contains\(provider\)[\s\S]*return "按量 API"/,
   );
 });
 
