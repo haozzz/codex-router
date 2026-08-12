@@ -129,6 +129,7 @@ Linux installations support the Codex CLI.
 | GLM-5.2 (Qwen Plan) | `qwen-plan/glm-5.2` | Alibaba Model Studio plan API key |
 | GLM-5.2 (Coding Plan) | `zai-coding/glm-5.2` | Z.ai GLM Coding Plan API key |
 | GLM-5-Turbo (Coding Plan) | `zai-coding/glm-5-turbo` | Z.ai GLM Coding Plan API key |
+| Ark Code Latest (Volcengine Plan) | `volcengine-plan/ark-code-latest` | Volcengine Ark Coding Plan API key |
 | Muse Spark 1.2 (Meta) | `meta/muse-spark-1.2` | Meta Model API key |
 | Muse Spark 1.2 Contributor (Meta) | `meta/muse-spark-1.2-contributor` | Meta Model API key |
 | Muse Spark 1.1 (Meta) | `meta/muse-spark-1.1` | Meta Model API key |

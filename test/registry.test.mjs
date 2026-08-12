@@ -106,6 +106,7 @@ test("provider registry exposes configured API and OAuth model families", () => 
       "qwen-plan/qwen3.7-plus",
       "qwen-plan/qwen3.8-max-preview",
       "qwen-plan/qwen3.8-max",
+      "volcengine-plan/ark-code-latest",
       "zai-coding/glm-5-turbo",
       "zai-coding/glm-5.2",
     ],
@@ -121,6 +122,15 @@ test("provider registry exposes configured API and OAuth model families", () => 
   );
   assert.equal(PROVIDERS.get("ollama-cloud").baseUrl, "https://ollama.com/v1");
   assert.equal(PROVIDERS.get("minimax-token-plan").baseUrl, "https://api.minimax.io/v1");
+  assert.equal(
+    PROVIDERS.get("volcengine-plan").baseUrl,
+    "https://ark.cn-beijing.volces.com/api/coding/v3",
+  );
+  assert.equal(PROVIDERS.get("volcengine-plan").protocol, "openai-responses");
+  assert.deepEqual(PROVIDERS.get("volcengine-plan").credential.environment, [
+    "ARK_API_KEY",
+    "VOLCENGINE_API_KEY",
+  ]);
   // Go is its own endpoint, not the pay-per-use Zen one.
   assert.equal(PROVIDERS.get("opencode-go").baseUrl, "https://opencode.ai/zen/go/v1");
   assert.equal(PROVIDERS.get("opencode-go-messages").baseUrl, "https://opencode.ai/zen/go/v1");

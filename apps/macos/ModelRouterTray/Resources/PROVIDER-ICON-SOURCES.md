@@ -15,5 +15,6 @@ blue accent and DeepSeek's original blue mark are preserved.
 | Command Code | https://commandcode.ai/ | https://commandcode.ai/apple-touch-icon.png |
 | GitHub Copilot | https://github.com/features/copilot | https://github.com/primer/octicons/blob/main/icons/copilot-24.svg (MIT) |
 | Chutes | https://chutes.ai/ | Inline SVG mark from the official site header |
+| Volcengine Ark Coding Plan | — | Neutral `V` monogram created for this personal fork; not an official Volcengine trademark asset |
 
 The marks remain trademarks of their respective owners.

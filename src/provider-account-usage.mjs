@@ -598,6 +598,17 @@ async function accountUsageFor(providerId, fetchImpl) {
           }
         : { status: "not-configured", source: "official-api", metrics: [] };
     }
+    if (providerId === "volcengine-plan") {
+      // Ark Coding Plan publishes no documented account-usage endpoint for
+      // this credential. Never import console cookies; report observed rate
+      // limits when available and otherwise fall back to local router traffic.
+      return resolveProviderCredential("volcengine-plan")
+        ? withHeaderQuota(
+            providerId,
+            localOnly("Volcengine exposes Coding Plan usage in its console; showing router traffic"),
+          )
+        : { status: "not-configured", source: "official-api", metrics: [] };
+    }
     if (providerId === "commandcode") {
       return resolveProviderCredential("commandcode")
         ? {

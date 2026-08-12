@@ -48,6 +48,20 @@ writeFileSync(registryPath, JSON.stringify({
         prompt: "Ollama Cloud API key",
       },
     },
+    {
+      id: "volcengine-plan",
+      displayName: "Volcengine Ark Coding Plan",
+      kind: "openai-compatible",
+      ownedBy: "volcengine",
+      protocol: "openai-responses",
+      baseUrl: "https://ark.cn-beijing.volces.com/api/coding/v3",
+      baseUrlEnv: "VOLCENGINE_CODING_BASE_URL",
+      credential: {
+        environment: ["ARK_API_KEY"],
+        file: "volcengine-plan-api-key.secret",
+        prompt: "Volcengine Ark Coding Plan API key",
+      },
+    },
   ],
   models: [],
 }));
@@ -172,12 +186,15 @@ test("z.ai account fetch uses the stored plan key and quota endpoint", async () 
   assert.ok(account.dashboardUrl.startsWith("https://z.ai/"));
 });
 
-test("qwen and ollama stay local-only but carry a dashboard link", async () => {
+test("plan providers without a usage endpoint stay local-only", async () => {
   writeFileSync(path.join(stateDir, "qwen-plan-api-key.secret"), "TEST_QWEN_QUOTA_KEY\n", {
     mode: 0o600,
   });
+  writeFileSync(path.join(stateDir, "volcengine-plan-api-key.secret"), "TEST_ARK_PLAN_KEY\n", {
+    mode: 0o600,
+  });
   const snapshot = await providerAccountUsageSnapshot({
-    providerIds: ["qwen-plan", "ollama-cloud"],
+    providerIds: ["qwen-plan", "ollama-cloud", "volcengine-plan"],
     fetchImpl: async () => {
       throw new Error("local-only providers must not reach the network");
     },
@@ -188,6 +205,6 @@ test("qwen and ollama stay local-only but carry a dashboard link", async () => {
   );
   assert.equal(snapshot["ollama-cloud"].status, "not-configured");
   assert.equal(snapshot["ollama-cloud"].dashboardUrl, undefined);
+  assert.equal(snapshot["volcengine-plan"].status, "local-only");
+  assert.match(snapshot["volcengine-plan"].message, /Coding Plan usage.*router traffic/);
 });
-
-
