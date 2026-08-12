@@ -35,8 +35,8 @@ and disables its activity-pill switch; router monitoring continues normally.
   prior model-provider setting when switched off.
 - **Models** has three accordions: **Subagent models** exposes every enabled
   model, or only selected models, as Codex v2 subagent overrides, and
-  **Model picker** hides or shows individual models without changing their
-  provider connection.
+  **Model picker** independently hides or shows individual models in the main
+  picker without changing their provider connection or subagent eligibility.
 - **Local LLMs** installs, enables, and removes Ollama models on this machine.
   Installs poll their detached download worker and show live percentage;
   removals keep a visible operation banner even when the installed row
@@ -45,7 +45,6 @@ and disables its activity-pill switch; router monitoring continues normally.
 - **Usage** shows the active or most recently used model's observed output
   throughput when the upstream reports output tokens. The rate is end-to-end
   tokens per second from successful metered replies, not a synthetic estimate.
-
 The status mark uses Thinking Orbs **Shaping** while idle, **Thinking** while a
 model is generating, and **Solving** for errors. Starting retains its colored
 status dot, and the Error label remains explicit. A low-contrast edge signal

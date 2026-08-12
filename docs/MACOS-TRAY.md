@@ -32,9 +32,10 @@ regardless of this setting.
 
 The Settings tab's **Models** section has two accordions. **Subagent models**
 exposes every enabled model, or only selected models, as Codex v2 subagent
-overrides; **Model picker** hides or shows individual models without changing
-their provider connection. Restart Codex after changing either group so its
-model picker reloads the merged catalog.
+overrides; **Model picker** independently hides or shows individual models in
+the main picker without changing their provider connection or subagent
+eligibility. Restart Codex after changing either group so it reloads the
+merged catalog.
 
 ## Show tray only while Codex runs
 
