@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **Volcengine Ark Coding Plan is available as an isolated provider.** The
+  personal fork routes `ark-code-latest` through the plan-only Responses API at
+  `/api/coding/v3`, stores its credential separately, and warns against the
+  pay-as-you-go `/api/v3` endpoint.
+
+- **Model picker visibility and subagent eligibility are independent.** Hiding
+  a model now removes it only from the main Codex model picker; the same model
+  can remain a v2 subagent when `Subagent models` is set to all or explicitly
+  selected. The macOS and desktop companions keep hidden models in the
+  subagent list and label them `Picker hidden`. If a model must not run as a
+  subagent, turn it off under **Subagent models** rather than relying on picker
+  visibility.
+
 - **GitHub Copilot is available as a catalog-only provider.** A
   fine-grained PAT with the Copilot Requests permission is validated through
   the Copilot account endpoint; account-selected inference hosts are restricted
@@ -62,7 +75,6 @@
   the per-attempt budget is already two minutes. A local engine that is down
   still reports the transport's own words, which is how you learn your own
   server is not running.
-
 - **The gateway no longer installs a cryptography with a known advisory.**
   litellm 1.95.0 required `cryptography>=48.0.1,<49.0`, and the fix for
   GHSA-g6cj-pr64-35w5 — a Bleichenbacher oracle reachable through PKCS#7

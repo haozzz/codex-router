@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "slug": "volcengine-plan/ark-code-latest",
+      "gatewayModel": "volcengine-plan-ark-code-latest",
+      "upstreamModel": "ark-code-latest",
+      "provider": "volcengine-plan",
+      "listed": true,
+      "displayName": "Ark Code Latest (Volcengine Plan)",
+      "description": "The model selected for ark-code-latest in the Volcengine Ark Coding Plan console, routed through the plan-only Responses API.",
+      "priority": 60,
+      "defaultEffort": "high",
+      "reasoningLevels": [
+        {
+          "effort": "low",
+          "description": "Quick reasoning"
+        },
+        {
+          "effort": "medium",
+          "description": "Balanced reasoning"
+        },
+        {
+          "effort": "high",
+          "description": "Deep reasoning"
+        }
+      ],
+      "contextWindow": 131072,
+      "autoCompact": 110000,
+      "inputModalities": [
+        "text"
+      ],
+      "compHash": "volcengine-plan-ark-code-latest-local-v1"
+    }
+  ]
+}

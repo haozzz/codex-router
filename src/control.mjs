@@ -671,15 +671,11 @@ async function handleSubagents(action, value, flag) {
     replaceMultiAgentState({ mode: "all", enabled: [], disabled: [] });
   } else if (action === "unselect-all") {
     const { selectedConfiguredListedModels } = await import("./provider-selection.mjs");
-    const { readHiddenModels } = await import("./model-picker-state.mjs");
-    const hidden = readHiddenModels();
-    const visibleExternal = selectedConfiguredListedModels()
-      .filter((model) => !hidden.has(model.slug))
-      .map((model) => model.slug);
+    const selectedExternal = selectedConfiguredListedModels().map((model) => model.slug);
     replaceMultiAgentState({
       mode: "selected",
       enabled: [],
-      disabled: visibleExternal,
+      disabled: selectedExternal,
     });
   } else if (action === "mode") {
     setMultiAgentMode(value);
